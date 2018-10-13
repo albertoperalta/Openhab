@@ -1,0 +1,3 @@
+Switch TR_TermostatoApagado "Termostato Apagado" <heating>
+Switch TR_TermostatoEncendido "Termostado Encendido" <heating>
+Number TR_TemperaturaTermostato "Temperatura [%.1f °C]"

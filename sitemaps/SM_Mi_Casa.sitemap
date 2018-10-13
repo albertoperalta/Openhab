@@ -1,0 +1,12 @@
+sitemap SM_Mi_Casa label="Casa" {
+        Frame label="Termostato" 
+        {
+        Switch item=TR_TermostatoApagado label="Termostato Apagado"
+        Switch item=TR_TermostatoEncendido label="Termostato Encendido"
+        Text item=SensorTermostatoTemperatura label="Salón [%.1f °C]" icon="temperature"
+        Text item=NivelBateria label="Nivel de la batería [%.1f]" icon="battery"
+        Text item=Temperature label="Temperatura exterior [%.1f °C]" icon="temperature"
+        Text item=TR_TemperaturaTermostato label="Temperatura Termostato [%.1f °C]" icon="temperature"
+        }   
+        
+}

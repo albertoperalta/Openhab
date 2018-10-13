@@ -1,0 +1,61 @@
+// Imports
+import org.openhab.core.library.types
+import org.openhab.core.persistence
+import org.openhab.model.script.actions
+import org.joda.time
+
+
+// Constants used to generate this rule
+// TemperaturaMedia == 19
+// TemperaturaAlta == 21
+// TemperaturaBaja == 17
+
+rule "Definicion Temperatura Salon"
+when
+    Item SensorTermostatoTemperatura changed
+then
+  logInfo("Definicion Temperatura Salon rule", "Entró en la regla")
+  if ((((new LocalTime().getLocalMillis()) >= (new LocalTime(15, 0, 0, 0).getLocalMillis())) 
+    && ((new LocalTime().getLocalMillis()) <= (new LocalTime(23, 0, 0, 0).getLocalMillis())))) {
+    if (thermostat_setpoint_heating.state != 21 && TR_TermostatoApagado.state !=ON) {
+      logInfo("Cambia Switch Apagado OFF ON rule", "Entró en el if 21")
+      sendCommand(thermostat_setpoint_heating, 21)
+    }
+  }
+  else {
+    if (thermostat_setpoint_heating.state != 17 && TR_TermostatoEncendido.state !=ON) {
+    
+      sendCommand(thermostat_setpoint_heating, 17)
+    }
+  }
+end
+
+rule "Cambia Switch Apagado OFF ON"
+when
+    Item TR_TermostatoApagado changed to ON
+then
+        logInfo("Cambia Switch Apagado OFF ON rule", "Entró en la regla")
+        if ((thermostat_setpoint_heating.state != 17)) {
+  
+            sendCommand(thermostat_setpoint_heating, 17)
+            logInfo("Cambia Switch Apagado OFF ON rule", "Entró en el if")
+            sendCommand(TR_TermostatoEncendido,OFF)
+      } 
+    
+end
+
+rule "Cambia Switch Encendido OFF ON"
+when
+    Item TR_TermostatoEncendido changed to ON
+then
+        logInfo("Cambia Switch Encendido OFF ON rule", "Entró en la regla")
+        if ((thermostat_setpoint_heating.state != 21)) {
+  
+            sendCommand(thermostat_setpoint_heating, 21)
+            logInfo("Cambia Switch Encendido OFF ON rule", "Entró en el if")
+            sendCommand(TR_TermostatoApagado,OFF)
+      } 
+    
+end
+
+

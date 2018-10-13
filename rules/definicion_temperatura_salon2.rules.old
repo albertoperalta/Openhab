@@ -1,0 +1,34 @@
+// Imports
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+import org.joda.time.*
+
+
+// Constants used to generate this rule
+// TemperaturaMedia == 19
+// TemperaturaAlta == 21
+// TemperaturaBaja == 17
+
+rule "Definicion Temperatura Salon"
+when
+    Item SensorTermostatoTemperatura changed 
+then
+
+  if (TR_TermostatoApagado.state!=ON && (TR_TermostatoEncendido.state==ON ||
+   ((((new LocalTime().getLocalMillis()) >= (new LocalTime(15, 0, 0, 0).getLocalMillis())) && 
+   ((new LocalTime().getLocalMillis()) <= (new LocalTime(23, 0, 0, 0).getLocalMillis())))))) {
+    if ((thermostat_setpoint_heating.state != 21)) {
+      sendCommand(thermostat_setpoint_heating, 21)
+    }
+  }
+  else {
+  if ((thermostat_setpoint_heating.state != 17)) {
+  
+  sendCommand(thermostat_setpoint_heating, 17)
+  }
+  }
+end
+
+
+

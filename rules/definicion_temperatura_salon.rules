@@ -1,0 +1,90 @@
+// Imports
+import org.openhab.core.library.types
+import org.openhab.core.persistence
+import org.openhab.model.script.actions
+import org.joda.time
+
+
+// Constants used to generate this rule
+var Number TemperaturaMedia = 17
+var Number TemperaturaAlta = 22
+var Number TemperaturaBaja = 17
+var Number TemperaturaLeida = 0
+
+rule "Definicion Temperatura Salon"
+when
+    Item SensorTermostatoTemperatura changed
+then
+  logInfo("Definicion Temperatura Salon rule", "Entró en la regla")
+  if ((now.isAfter(now.withTimeAtStartOfDay.plusHours(16))) && 
+      now.isBefore(now.withTimeAtStartOfDay.plusHours(22)))
+  //if ((((new LocalTime().getLocalMillis()) >= (new LocalTime(16, 0, 0, 0).getLocalMillis())) 
+//    && ((new LocalTime().getLocalMillis()) <= (new LocalTime(22, 0, 0, 0).getLocalMillis())))) {
+    if (TemperaturaLeida != TemperaturaAlta && TR_TermostatoApagado.state !=ON) {
+      logInfo("Definicion Temperatura Salon rule", "Entró en el if 22")
+      thermostat_setpoint_heating.sendCommand(TemperaturaAlta)
+      TemperaturaLeida = (thermostat_setpoint_heating.state as DecimalType).intValue
+      TR_TemperaturaTermostato.sendCommand(TemperaturaLeida)
+      
+    }
+  
+  else {
+    if (TemperaturaLeida != TemperaturaMedia && TR_TermostatoEncendido.state !=ON) {
+      thermostat_setpoint_heating.sendCommand(TemperaturaMedia)
+      TemperaturaLeida = (thermostat_setpoint_heating.state as DecimalType).intValue
+      TR_TemperaturaTermostato.sendCommand(TemperaturaLeida)
+    }
+  }
+end
+
+rule "Cambia Switch Apagado OFF ON"
+when
+    Item TR_TermostatoApagado changed to ON
+then
+        logInfo("Cambia Switch Apagado OFF ON rule", "Entró en la regla")
+        if ((TemperaturaLeida != TemperaturaBaja)) {
+  
+            thermostat_setpoint_heating.sendCommand(TemperaturaBaja)
+            logInfo("Cambia Switch Apagado OFF ON rule", "Entró en el if")
+            TR_TermostatoEncendido.sendCommand(OFF)
+            TemperaturaLeida = (thermostat_setpoint_heating.state as DecimalType).intValue
+            logInfo("Cambia Switch Apagado OFF ON rule", "Valor de TemperaturaLeida=" + TemperaturaLeida)
+            TR_TemperaturaTermostato.sendCommand(TemperaturaLeida)
+      } 
+    
+end
+
+
+
+rule "Cambia Switch Encendido OFF ON"
+when
+    Item TR_TermostatoEncendido changed to ON
+then
+        logInfo("Cambia Switch Encendido OFF ON rule", "Entró en la regla")
+        if ((TemperaturaLeida != TemperaturaAlta)) {
+  
+            thermostat_setpoint_heating.sendCommand(TemperaturaAlta)
+            logInfo("Cambia Switch Encendido OFF ON rule", "Entró en el if")
+            TR_TermostatoApagado.sendCommand(OFF)
+            TemperaturaLeida = (thermostat_setpoint_heating.state as DecimalType).intValue
+            logInfo("Cambia Switch Encendido OFF ON rule", "Valor de TemperaturaLeida=" + TemperaturaLeida)
+            TR_TemperaturaTermostato.sendCommand(TemperaturaLeida)
+            
+      } 
+    
+end
+
+rule "Cambia Temperatura Alta en función de la temperatura exterior"
+when 
+  Item Temperature changed
+then
+
+
+    logInfo("Cambia Temperatura Alta en función de la temperatura exterior", "Entró en la regla")
+    if((Temperature.value as number) > 17 ) {
+        TemperaturaAlta = 19
+    } else {
+    TemperaturaAlta = 22
+    }
+end
+
