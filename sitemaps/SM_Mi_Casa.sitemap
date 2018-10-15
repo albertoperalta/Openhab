@@ -8,6 +8,11 @@ sitemap SM_Mi_Casa label="Casa" {
         Text item=SensorTermostatoTemperatura label="Salón [%.1f °C]" icon="temperature"
         Text item=Temperature label="Temperatura exterior [%.1f °C]" icon="temperature"
         Text item=NivelBateria label="Nivel de la batería [%.1f]" icon="battery"
-        }   
+        } 
+        Frame label="Graficas"
+        {
+            Chart item=Temperature period=D refresh=10000 icon="temperature" label="Temperatura Salón" 
+        }
+
         
 }

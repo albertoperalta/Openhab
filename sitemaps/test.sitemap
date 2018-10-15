@@ -1,0 +1,6 @@
+sitemap test {
+    Frame label="TestTools"{
+        Switch item=swTestRule label="Prueba Regla"
+    }
+
+}
