@@ -10,6 +10,8 @@ var Number TemperaturaMedia = 19
 var Number TemperaturaAlta = 22
 var Number TemperaturaBaja = 17
 var Number TemperaturaLeida = 0
+var int TemperaturaInicioTermostato = 16
+var int TemperaturaFinTermostato = 22
 var boolean CambioTemperaturaporRegla=false
 
 
@@ -21,8 +23,8 @@ then
   if ((TR_ModoManual.state == OFF))
   {
     logInfo("Definicion Temperatura Salon rule", "Entró en el if state OFF")
-    if ((now.isAfter(now.withTimeAtStartOfDay.plusHours(16))) && 
-        now.isBefore(now.withTimeAtStartOfDay.plusHours(22))) 
+    if ((now.isAfter(now.withTimeAtStartOfDay.plusHours( TemperaturaInicioTermostato  ))) && 
+        now.isBefore(now.withTimeAtStartOfDay.plusHours( TemperaturaFinTermostato  ))) 
         {   
             logInfo("Definición Temperatura Salon rule", "TemperaturaLeida TemperaturaAlta " + TemperaturaLeida + " " + TemperaturaAlta)
             if (TemperaturaLeida != TemperaturaAlta ) 
@@ -124,6 +126,10 @@ then
         TR_ModoManual.sendCommand(OFF)
         TR_TermostatoApagado.sendCommand(OFF)
         TR_TermostatoEncendido.sendCommand(OFF)
+        TemperaturaInicioTermostato = 16
+        TemperaturaFinTermostato = 22
+        TR_TemperaturaInicio.sendCommand(TemperaturaInicioTermostato)
+        TR_TemperaturaFin.sendCommand(TemperaturaFinTermostato)
     }
 end
 
@@ -173,3 +179,19 @@ then
     TR_ModoManual.sendCommand(ON)
 end
 
+
+rule "Cambia Temperatura Inicio Termostato"
+when
+    Item TR_TemperaturaInicio changed
+then
+    logInfo("Cambia Temperatura Inicio Termostato", "Entró en la regla")
+    TemperaturaInicioTermostato = (TR_TemperaturaInicio.state as DecimalType).intValue
+end
+
+rule "Cambia Temperatura Fin Termostato"
+when
+    Item TR_TemperaturaFin changed
+then
+    logInfo("Cambia Temperatura Fin Termostato", "Entró en la regla")
+    TemperaturaFinTermostato = (TR_TemperaturaFin.state as DecimalType).intValue
+end

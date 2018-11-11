@@ -6,6 +6,8 @@ sitemap SM_Mi_Casa label="Casa" {
         Switch item=TR_ModoManual label="Modo Manual"
         Switch item=TR_Out label="Mono Manual Permanente"
         Setpoint item=TR_TemperaturaTermostato label="Temperatura Termostato [%.1f °C]" minValue=15 maxValue=24 step=1
+        Setpoint item=TR_TemperaturaInicio label="Temperatura Inicio  [%.0f]" minValue=10 maxValue=23 step=1
+        Setpoint item=TR_TemperaturaFin label="Temperatura Fin [%.0f]" minValue=11 maxValue=23 step=1
         Text item=SensorTermostatoTemperatura label="Salón [%.1f °C]" icon="temperature"
         Text item=Temperature label="Temperatura exterior [%.1f °C]" icon="temperature"
         Text item=NivelBateria label="Nivel de la batería [%.1f]" icon="battery"
