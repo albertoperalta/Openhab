@@ -12,11 +12,11 @@ sitemap SM_Mi_Casa label="Casa" {
         } 
         Frame label="Temperaturas"{
 				Switch item=Weather_Chart_Period label="Chart Period" mappings=[0="Hour", 1="Day", 2="Week", 3="Month", 4="Year"]
-				Chart item=SensorTermostatoTemperatura period=H refresh=600 visibility=[Weather_Chart_Period==0]
-				Chart item=SensorTermostatoTemperatura  period=D refresh=900 visibility=[Weather_Chart_Period==1, Weather_Chart_Period=="NULL"]
-				Chart item=SensorTermostatoTemperatura  period=W refresh=3600 visibility=[Weather_Chart_Period==2]
-				Chart item=SensorTermostatoTemperatura  period=M refresh=3600 visibility=[Weather_Chart_Period==3]
-				Chart item=SensorTermostatoTemperatura  period=Y refresh=3600 visibility=[Weather_Chart_Period==4]
+				Chart item=Weather_Chart period=H refresh=600 visibility=[Weather_Chart_Period==0]
+				Chart item=Weather_Chart  period=D refresh=900 visibility=[Weather_Chart_Period==1, Weather_Chart_Period=="NULL"]
+				Chart item=Weather_Chart  period=W refresh=3600 visibility=[Weather_Chart_Period==2]
+				Chart item=Weather_Chart  period=M refresh=3600 visibility=[Weather_Chart_Period==3]
+				Chart item=Weather_Chart  period=Y refresh=3600 visibility=[Weather_Chart_Period==4]
 			}
         
 }

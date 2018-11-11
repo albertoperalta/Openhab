@@ -60,7 +60,7 @@ then
         TR_ModoManual.sendCommand(ON)
         logInfo("Cambia Switch Apagado OFF ON rule", "TemperaturaLeida TemperaturaBaja " + TemperaturaLeida + " " + TemperaturaBaja)
         if ((TemperaturaLeida != TemperaturaBaja)) {
-            // CambioTemperaturaporRegla=true 
+            CambioTemperaturaporRegla=false 
             thermostat_setpoint_heating.sendCommand(TemperaturaBaja)
             logInfo("Cambia Switch Apagado OFF ON rule", "Entró en el if")
             TR_TermostatoEncendido.sendCommand(OFF)
@@ -81,7 +81,7 @@ then
         TR_ModoManual.sendCommand(ON)
         logInfo("Cambia Switch Encendido OFF ON rule", "TemperaturaLeida TemperaturaAlta " + TemperaturaLeida + " " + TemperaturaAlta)
         if ((TemperaturaLeida != TemperaturaAlta)) {
-            // CambioTemperaturaporRegla=true 
+            CambioTemperaturaporRegla=false
             thermostat_setpoint_heating.sendCommand(TemperaturaAlta)
             logInfo("Cambia Switch Encendido OFF ON rule", "Entró en el if")
             TR_TermostatoApagado.sendCommand(OFF)
@@ -153,16 +153,16 @@ end
      Item TR_TemperaturaTermostato changed
  then
     logInfo("Cambia temperatura por setpoint", "Entró en la regla")
-    logInfo("Cambia temperatura por setpoint", "CambioTemperaturaporRegla" + CambioTemperaturaporRegla)
+    logInfo("Cambia temperatura por setpoint", "CambioTemperaturaporRegla " + CambioTemperaturaporRegla)
      if (!CambioTemperaturaporRegla) {
          logInfo("Cambia temperatura por setpoint", "Entró en el if")
          logInfo("Cambia temperatura por setpoint", "TR_TemperaturaTermostato.state "+ (TR_TemperaturaTermostato.state as DecimalType).intValue)
-         TemperaturaLeida = (TR_TemperaturaTermostato.state as DecimalType).intValue
-         thermostat_setpoint_heating.sendCommand(TemperaturaLeida)
+         CambioTemperaturaporRegla=false
+         thermostat_setpoint_heating.sendCommand((TR_TemperaturaTermostato.state as DecimalType).intValue)
          TemperaturaLeida = (thermostat_setpoint_heating.state as DecimalType).intValue
          logInfo("Cambia temperatura por setpoint", "Valor de TemperaturaLeida=" + TemperaturaLeida)
          TR_ModoManual.sendCommand(ON)
-         CambioTemperaturaporRegla=false
+         
      }
  end
 
