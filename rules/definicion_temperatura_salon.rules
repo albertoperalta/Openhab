@@ -15,9 +15,11 @@ var int TemperaturaFinTermostato = 22
 var boolean CambioTemperaturaporRegla=false
 
 
+
 rule "Definicion Temperatura Salon"
 when
-    Item SensorTermostatoTemperatura changed
+    Item SensorTermostatoTemperatura changed or 
+    Time cron "0 0 0/1 1/1 * ? *" 
 then
   logInfo("Definicion Temperatura Salon rule", "Entró en la regla")
   if ((TR_ModoManual.state == OFF))
@@ -186,6 +188,7 @@ when
 then
     logInfo("Cambia Temperatura Inicio Termostato", "Entró en la regla")
     TemperaturaInicioTermostato = (TR_TemperaturaInicio.state as DecimalType).intValue
+
 end
 
 rule "Cambia Temperatura Fin Termostato"
@@ -194,4 +197,5 @@ when
 then
     logInfo("Cambia Temperatura Fin Termostato", "Entró en la regla")
     TemperaturaFinTermostato = (TR_TemperaturaFin.state as DecimalType).intValue
+
 end
