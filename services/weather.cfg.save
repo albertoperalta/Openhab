@@ -1,11 +1,11 @@
-# The apikey for the different weather providers, at least one must be specified
+2a906e86bde65d416abcf42cf25c80c2# The apikey for the different weather providers, at least one must be specified
 # Note: Hamweather requires two apikeys: client_id=apikey, client_secret=apikey2
 #apikey.ForecastIo=
-apikey.OpenWeatherMap=2a906e86bde65d416abcf42cf25c80c2
+#apikey.OpenWeatherMap=
 #apikey.WorldWeatherOnline=
 #apikey.Wunderground=
-#apikey.Hamweather=odWggjYFrFu64TTm5UYIy
-#apikey2.Hamweather=Y0DbVUQIelbCzZeJotQmx3PtUXKL6sOL6iOQHEtP
+apikey.Hamweather=odWggjYFrFu64TTm5UYIy
+apikey2.Hamweather=Y0DbVUQIelbCzZeJotQmx3PtUXKL6sOL6iOQHEtP
 #apikey.Meteoblue=
 
 # location configuration, you can specify multiple locations
@@ -34,7 +34,7 @@ apikey.OpenWeatherMap=2a906e86bde65d416abcf42cf25c80c2
 location.home.name= Torrejón del Rey
 location.home.latitude=  40.64325
 location.home.longitude= -3.33376
-location.home.provider=OpenWeatherMap
+location.home.provider=Hamweather
 location.home.language=es
 location.home.updateInterval=5
 location.home.units=SI

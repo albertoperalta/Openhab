@@ -1,0 +1,2 @@
+Switch Location_Alberto_Home "Alberto en casa" <present> { mqttitude="m2mmqtt:owntracks/alberto/bertvsphone" }
+String Location_Alberto_Bateria "Alberto Bateria Movil" {mqtt="<[m2mmqtt:owntracks/alberto/bertvsphone:state:JSONPATH($.batt)]"}

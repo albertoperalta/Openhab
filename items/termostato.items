@@ -1,9 +1,9 @@
-Switch TR_TermostatoApagado "Termostato Apagado" <heating>
-Switch TR_TermostatoEncendido "Termostado Encendido" <heating>
+//Switch TR_TermostatoApagado "Termostato Apagado" <heating>
+//Switch TR_TermostatoEncendido "Termostado Encendido" <heating>
 Switch TR_ModoManual "Modo Manual" <heating>
 Switch TR_Out "Modo Manual Permanente" <heating> 
 Group Weather_Chart  (g_Weather)
 Number TR_TemperaturaTermostato "Temperatura [%.1f °C]" (Weather_Chart)
-Number TR_TemperaturaInicio "Hora Inicio Termostato [%.1f]"
-Number TR_TemperaturaFin "Hora Fin Termostato [%.1f]"
+Number TR_TemperaturaInicio "Hora Inicio Termostato [%.1f]" <clock>
+Number TR_TemperaturaFin "Hora Fin Termostato [%.1f]" <clock>
 Number Weather_Chart_Period  "Char Period"   <line>

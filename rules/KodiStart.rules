@@ -10,5 +10,12 @@ then
     if (TR_TermostatoEncendido.state == NULL ||TR_TermostatoEncendido.state == "") {
         TR_TermostatoEncendido.postUpdate("OFF")
     }
+    TR_ModoManual.sendCommand(OFF)
+    if (TR_TemperaturaInicio.state == NULL) {
+        TR_TemperaturaInicio.postUpdate(16)
+    }
+    if (TR_TemperaturaFin.state == NULL) {
+        TR_TemperaturaFin.postUpdate(22)
+    }
     
 end

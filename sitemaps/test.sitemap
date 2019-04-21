@@ -1,6 +1,15 @@
 sitemap test {
     Frame label="TestTools"{
-        Switch item=swTestRule label="Prueba Regla"
+        Switch item=atHomeFM  label="APEnCASAtrack"
+        Switch item=NearHomeFM  label="APEnCasaTrack"
+        Switch item=atHomeMM  label="MMEnCasaTrack"
+        Switch item=NearHomeMM  label="MMCercaCasaTrack"
+       
+        Switch item=Moviles label="Todos los Moviles"
+        Switch item=CercaCasa label="Cerca de Casa"
+        Switch item=AndroidAlbertoOnline label="Movil Alberto"
+        Switch item=AndroidMarimarOnline label="Movil Marimar"
+
     }
 
 }
