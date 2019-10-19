@@ -18,5 +18,9 @@ sitemap SM_Mi_Casa label="Casa" {
 				Chart item=SensorTermostatoTemperatura  period=M refresh=3600 visibility=[Weather_Chart_Period==3]
 				Chart item=SensorTermostatoTemperatura  period=Y refresh=3600 visibility=[Weather_Chart_Period==4]
 			}
+        Frame label="Proximidad"{
+            Switch item=Moviles label="Dentro de Casa"
+            Switch item=CercaCasa label="Cerca de Casa"
+        }
         
 }

@@ -3,13 +3,6 @@ when
     System started
 then
     
-    if (TR_TermostatoApagado.state == NULL ||TR_TermostatoApagado.state == "") {
-        TR_TermostatoApagado.postUpdate("OFF")
-    }
-    
-    if (TR_TermostatoEncendido.state == NULL ||TR_TermostatoEncendido.state == "") {
-        TR_TermostatoEncendido.postUpdate("OFF")
-    }
     TR_ModoManual.sendCommand(OFF)
     if (TR_TemperaturaInicio.state == NULL) {
         TR_TemperaturaInicio.postUpdate(16)
