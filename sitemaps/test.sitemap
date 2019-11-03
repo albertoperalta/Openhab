@@ -1,14 +1,14 @@
 sitemap test {
     Frame label="TestTools"{
-        Switch item=GPSTrackerAlbertoCasa  label="APEnCASAtrack"
-        Switch item=GPSTrackerAlbertoCercaCasa  label="APCercaCasaTrack"
-        Switch item=GPSTrackerMarimarCasa  label="MMEnCasaTrack"
-        Switch item=NearHomeMM  label="MMCercaCasaTrack"
+        Switch item=GPSTrackerAlberto_RegionEnCasa  label="APEnCASAtrack"
+        Switch item=GPSTrackerAlberto_RegionCercaCasa  label="APCercaCasaTrack"
+        Switch item=GPSTrackerMarimar_RegionCasa  label="MMEnCasaTrack"
+        Switch item=GPSTrackerMarimar_RegionCercaCasa  label="MMCercaCasaTrack"
         
-        Switch item=Moviles label="Todos los Moviles"
+        Switch item=EnCasa label="Todos los EnCasa"
         Switch item=CercaCasa label="Cerca de Casa"
-        Switch item=AndroidAlbertoOnline label="Movil Alberto"
-        Switch item=AndroidMarimarOnline label="Movil Marimar"
+        Switch item=MovilAlberto_Online label="Movil Alberto"
+        Switch item=MovilMarimar_Online label="Movil Marimar"
 
     }
 

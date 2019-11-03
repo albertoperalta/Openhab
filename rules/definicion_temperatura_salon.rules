@@ -8,18 +8,16 @@ var Number TemperaturaExterior = 0
 var int TemperaturaInicioTermostato = 16
 var int TemperaturaFinTermostato = 22
 var Number TemperaturaCambio = 0
-var Boolean EnCasa = false 
-//var boolean CambioTemperaturaporRegla=false
 
 
 
 rule "Definicion Temperatura Salon"
 when
-    Item SensorTermostatoTemperatura changed or 
+    Item Salon_SensorTemperature changed or 
     Time cron "0 0 0/1 1/1 * ? *" 
 then
-  TemperaturaLeida = (thermostat_setpoint_heating.state as Number).intValue
-  logInfo("Definicion Temperatura Salon rule", "Entró en la regla")
+  TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
+  logInfo("Definicion Temperatura Salon rule", "Entró en la regla" + TemperaturaLeida)
 
 
   if ((TR_ModoManual.state == OFF))
@@ -30,11 +28,12 @@ then
         {   
             logInfo("Definición Temperatura Salon rule", "TemperaturaLeida TemperaturaAlta " + TemperaturaLeida + " " + TemperaturaAlta)
             TemperaturaEstablecida = TemperaturaBaja
-            logInfo("Definición Temperatura Salon rule", "Movlies.state Moviles" + Moviles.state )
-            if (Moviles.state == ON) 
+            
+            logInfo("Definición Temperatura Salon rule", "Movlies.state EnCasa" + EnCasa.state )
+            if (EnCasa.state == ON) 
                 {
                 TemperaturaEstablecida = TemperaturaAlta
-                logInfo("Definición Temperatura Salon rule", "TemperaturaLeida Moviles.state ON " + TemperaturaEstablecida + " " + TemperaturaLeida)
+                logInfo("Definición Temperatura Salon rule", "TemperaturaLeida EnCasa.state ON " + TemperaturaEstablecida + " " + TemperaturaLeida)
                 }
             else 
                 {
@@ -47,8 +46,8 @@ then
             if (TemperaturaLeida != TemperaturaEstablecida ) 
             {
                 logInfo("Definicion Temperatura Salon rule", "Entró en el if TemperaturaAlta")
-                thermostat_setpoint_heating.sendCommand(TemperaturaEstablecida)
-                TemperaturaLeida = (thermostat_setpoint_heating.state as Number).intValue
+                Salon_SetpointHeating.sendCommand(TemperaturaEstablecida)
+                TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
                 TR_TemperaturaTermostato.postUpdate(TemperaturaLeida)
             
             }
@@ -59,25 +58,26 @@ then
             if (TemperaturaLeida != TemperaturaBaja ) 
             {
                 logInfo("Definicion Temperatura Salon rule", "Entró en el if TemperaturaBaja")
-                thermostat_setpoint_heating.sendCommand(TemperaturaBaja)
-                TemperaturaLeida = (thermostat_setpoint_heating.state as Number).intValue
+                Salon_SetpointHeating.sendCommand(TemperaturaBaja)
+                TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
                 TR_TemperaturaTermostato.postUpdate(TemperaturaLeida)
             }
           
         }
         
+
         
   }
 end
 
 rule "Cambia Temperatura Alta en función de la temperatura exterior"
 when 
-  Item localCurrentTemperature changed
+  Item WeatherAndForecast_Current_OutdoorTemperature changed
 then
 
 
     logInfo("Cambia Temperatura Alta en función de la temperatura exterior", "Entró en la regla")
-    TemperaturaExterior = (localCurrentTemperature.state as QuantityType<Number>).doubleValue
+    TemperaturaExterior = (WeatherAndForecast_Current_OutdoorTemperature.state as QuantityType<Number>).doubleValue
     logInfo("Cambia Temperatura Alta en función de la temperatura exterior", "Temperatura exterior " + TemperaturaExterior )
     
     if((TemperaturaExterior) > 18 ) {
@@ -108,13 +108,23 @@ then
     }
 end
 
- rule "Cambia Temperatura Manual"
+rule "Cambia Temperatura Manual"
 when 
-    Item thermostat_setpoint_heating received command
+    Item Salon_SetpointHeating received command
 then 
     logInfo("Cambia Temperatura Manual", "Entró en la regla")
-        TemperaturaCambio = (thermostat_setpoint_heating.state as Number).intValue
-        TR_TemperaturaTermostato.postUpdate ( TemperaturaCambio  )
+    TemperaturaCambio = (Salon_SetpointHeating.state as Number).intValue
+    TR_TemperaturaTermostato.postUpdate ( TemperaturaCambio  )
+end 
+
+rule "Cambia Temperatura Manual Maquina"
+when 
+    Item Salon_SetpointHeating changed 
+then 
+    logInfo("Cambia Temperatura Manual Maquina", "Entró en la regla")
+    TemperaturaCambio = (Salon_SetpointHeating.state as Number).intValue
+    TR_TemperaturaTermostato.postUpdate ( TemperaturaCambio  )
+    TR_ModoManual.sendCommand(ON)
 end 
 
 rule "Cambia temperatura por setpoint"
@@ -125,8 +135,8 @@ rule "Cambia temperatura por setpoint"
     logInfo("Cambia temperatura por setpoint", "TR_TemperaturaTermostato.state "+ (TR_TemperaturaTermostato.state as Number).intValue)
     TemperaturaCambio =    (TR_TemperaturaTermostato.state as Number).intValue 
     logInfo("Cambia temperatura por setpoint", "TemperaturaCambio "+ TemperaturaCambio)    
-    thermostat_setpoint_heating.sendCommand(TemperaturaCambio)
-    TemperaturaLeida = (thermostat_setpoint_heating.state as Number).intValue
+    Salon_SetpointHeating.sendCommand(TemperaturaCambio)
+    TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
     logInfo("Cambia temperatura por setpoint", "Valor de TemperaturaLeida=" + TemperaturaLeida)
     TR_ModoManual.sendCommand(ON)
  end
@@ -159,7 +169,7 @@ end
 
 rule "Hay alguien en casa"
 when
-    Item Moviles changed 
+    Item EnCasa changed 
 then 
     logInfo("Hay alguien en casa", "Entró en la regla")
 end

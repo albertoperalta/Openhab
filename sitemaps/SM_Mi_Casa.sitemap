@@ -6,20 +6,20 @@ sitemap SM_Mi_Casa label="Casa" {
         Setpoint item=TR_TemperaturaTermostato label="Temperatura Termostato [%.1f °C]" minValue=15 maxValue=24 step=1
         Setpoint item=TR_TemperaturaInicio label="Hora Inicio [%.0f]" minValue=10 maxValue=23 step=1
         Setpoint item=TR_TemperaturaFin label="Hora Fin [%.0f]" minValue=11 maxValue=23 step=1
-        Text item=SensorTermostatoTemperatura label="Salón [%.1f °C]" icon="temperature"
-        Text item=localCurrentTemperature label="Temperatura exterior [%.1f °C]" icon="temperature"
-        Text item=NivelBateria label="Nivel de la batería [%.1f]" icon="battery"
+        Text item=Salon_SensorTemperature label="Salón [%.1f °C]" icon="temperature"
+        Text item=WeatherAndForecast_Current_OutdoorTemperature label="Temperatura exterior [%.1f °C]" icon="temperature"
+        Text item=TermostatoSalon_BatteryLevel label="Nivel de la batería [%.1f]" icon="battery"
         } 
         Frame label="Temperaturas"{
 				Switch item=Weather_Chart_Period label="Chart Period" mappings=[0="Hour", 1="Day", 2="Week", 3="Month", 4="Year"]
-				Chart item=SensorTermostatoTemperatura period=H refresh=600 visibility=[Weather_Chart_Period==0]
-				Chart item=SensorTermostatoTemperatura  period=D refresh=900 visibility=[Weather_Chart_Period==1, Weather_Chart_Period=="NULL"]
-				Chart item=SensorTermostatoTemperatura  period=W refresh=3600 visibility=[Weather_Chart_Period==2]
-				Chart item=SensorTermostatoTemperatura  period=M refresh=3600 visibility=[Weather_Chart_Period==3]
-				Chart item=SensorTermostatoTemperatura  period=Y refresh=3600 visibility=[Weather_Chart_Period==4]
+				Chart item=Salon_SensorTemperature  period=h refresh=60 visibility=[Weather_Chart_Period==0]
+				Chart item=Salon_SensorTemperature  period=D refresh=900 visibility=[Weather_Chart_Period==1, Weather_Chart_Period=="NULL"]
+				Chart item=Salon_SensorTemperature  period=W refresh=3600 visibility=[Weather_Chart_Period==2]
+				Chart item=Salon_SensorTemperature  period=M refresh=3600 visibility=[Weather_Chart_Period==3]
+				Chart item=Salon_SensorTemperature  period=Y refresh=3600 visibility=[Weather_Chart_Period==4]
 			}
         Frame label="Proximidad"{
-            Switch item=Moviles label="Dentro de Casa"
+            Switch item=EnCasa label="Dentro de Casa"
             Switch item=CercaCasa label="Cerca de Casa"
         }
         
