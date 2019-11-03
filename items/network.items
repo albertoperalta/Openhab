@@ -1,7 +1,7 @@
-Group:Switch:OR(ON,OFF) Moviles
+Group:Switch:OR(ON,OFF) EnCasa
 
-//Switch AndroidMarimarOnline "Movil Marimar" <network> (Moviles) { channel="netwok:pingdevice:AndroidMarimar:online"} 
+//Switch AndroidMarimarOnline "Movil Marimar" <network> (EnCasa) { channel="netwok:pingdevice:AndroidMarimar:online"} 
 //Number AndroidMarimarLatency { channel="netwok:pingdevice:AndroidMarimar:latency"}
 
-//Switch AndroidAlbertoOnline "Movil Alberto" <network> (Moviles) { channel="netwok:pingdevice:AndroidAlberto:online"} 
+//Switch AndroidAlbertoOnline "Movil Alberto" <network> (EnCasa) { channel="netwok:pingdevice:AndroidAlberto:online"} 
 //Number AndroidAlbertoLatency { channel="netwok:pingdevice:AndroidAlberto:latency"}
