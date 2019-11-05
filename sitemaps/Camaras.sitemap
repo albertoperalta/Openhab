@@ -1,0 +1,7 @@
+sitemap Camaras {
+
+    Frame label="CamaraLavadora" icon="camera" 
+        {
+            Image item=ImageReceivedLavadora
+        }
+}

@@ -1,0 +1,14 @@
+val timeRightNow = now
+
+rule "CamaraLavadoraImageReceived"
+when 
+    Item ImageReceivedLavadora changed
+then
+    logInfo("CamaraLavadoraImageReceived", "Entró en la regla")
+    if (EnCasa.state == OFF || ((now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30))) && 
+        now.isBefore(now.withTimeAtStartOfDay.plusHours( 7 ))))
+        {
+        logInfo("CamaraLavadoraImageReceived", "Entró en el if")
+        sendNotification("al_bertvs@hotmail.com", "Se ha recibido una alarma en la lavadora " + timeRightNow)
+        }
+end
