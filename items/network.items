@@ -1,5 +1,7 @@
 Group:Switch:OR(ON,OFF) EnCasa
 
+
+Switch BotonEmail "Boton Eamil" {ihc="0x33c311", autoupdate="false"}
 //Switch AndroidMarimarOnline "Movil Marimar" <network> (EnCasa) { channel="netwok:pingdevice:AndroidMarimar:online"} 
 //Number AndroidMarimarLatency { channel="netwok:pingdevice:AndroidMarimar:latency"}
 

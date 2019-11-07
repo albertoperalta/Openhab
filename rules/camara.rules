@@ -1,14 +1,35 @@
 val timeRightNow = now
 
+
+
+
 rule "CamaraLavadoraImageReceived"
 when 
     Item ImageReceivedLavadora changed
 then
-    logInfo("CamaraLavadoraImageReceived", "Entró en la regla")
+    logInfo("CamaraLavadoraImageReceived", "Entró en la regla " )
     if (EnCasa.state == OFF || ((now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30))) && 
         now.isBefore(now.withTimeAtStartOfDay.plusHours( 7 ))))
         {
         logInfo("CamaraLavadoraImageReceived", "Entró en el if")
-        sendNotification("al_bertvs@hotmail.com", "Se ha recibido una alarma en la lavadora " + timeRightNow)
+        var picture = "picture.jpg"
+        var MensajeCamara = "Alarma por movieento en la sala de la lavadora Lavadora "+ now.toString ("HH:mm dd-MM-yyyy")
+        
+        executeCommandLine("wget http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.1.67/tmpfs/auto.jpg -O /tmp/" + picture)
+        Thread::sleep(3000)
+        sendNotification("al_bertvs@hotmail.com", "Alarma en la sala de la lavadora " + timeRightNow)
+        sendNotification("mmorenomd@gmail.com", "Alarma en la saña de la lavadora " + timeRightNow)
+        sendMail("bertvs@gmail.com","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
+        sendMail("aperalta@laliga.es","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
+        sendMail("mmorenomd@gmail.com","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
         }
+end
+
+rule "CamaraLavadoraBotonPulsado"
+when 
+    Item BotonEmail received command ON 
+then 
+    //Cambiar por el bihding
+    logInfo("CamaraLavadoraBotonPulsado", "Entró en la regla")
+    sendHttpGetRequest("http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.1.67/web/test_ftp.html")
 end

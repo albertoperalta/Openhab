@@ -1,7 +1,7 @@
 sitemap Camaras {
-
     Frame label="CamaraLavadora" icon="camera" 
         {
+            Switch item=BotonEmail mappings=[ON="Click"]
             Image item=ImageReceivedLavadora
         }
 }

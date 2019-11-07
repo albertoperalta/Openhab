@@ -117,7 +117,7 @@ then
     TR_TemperaturaTermostato.postUpdate ( TemperaturaCambio  )
 end 
 
-rule "Cambia Temperatura Manual Maquina"
+/* rule "Cambia Temperatura Manual Maquina"
 when 
     Item Salon_SetpointHeating changed 
 then 
@@ -125,7 +125,7 @@ then
     TemperaturaCambio = (Salon_SetpointHeating.state as Number).intValue
     TR_TemperaturaTermostato.postUpdate ( TemperaturaCambio  )
     TR_ModoManual.sendCommand(ON)
-end 
+end  */
 
 rule "Cambia temperatura por setpoint"
  when 
