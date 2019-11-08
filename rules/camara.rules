@@ -8,8 +8,8 @@ when
     Item ImageReceivedLavadora changed
 then
     logInfo("CamaraLavadoraImageReceived", "Entró en la regla " )
-    if (EnCasa.state == OFF || ((now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30))) && 
-        now.isBefore(now.withTimeAtStartOfDay.plusHours( 7 ))))
+    if (EnCasa.state == OFF || (now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30)) && 
+        now.isBefore(now.withTimeAtStartOfDay.plusHours(7))))
         {
         logInfo("CamaraLavadoraImageReceived", "Entró en el if")
         var picture = "picture.jpg"
