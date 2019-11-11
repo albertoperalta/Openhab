@@ -1,4 +1,4 @@
-val timeRightNow = now
+var DateTime timeRightNow 
 
 
 
@@ -8,20 +8,24 @@ when
     Item ImageReceivedLavadora changed
 then
     logInfo("CamaraLavadoraImageReceived", "Entró en la regla " )
-    if (EnCasa.state == OFF || (now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30)) && 
-        now.isBefore(now.withTimeAtStartOfDay.plusHours(7))))
-        {
-        logInfo("CamaraLavadoraImageReceived", "Entró en el if")
-        var picture = "picture.jpg"
-        var MensajeCamara = "Alarma por movieento en la sala de la lavadora Lavadora "+ now.toString ("HH:mm dd-MM-yyyy")
-        
-        executeCommandLine("wget http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.1.67/tmpfs/auto.jpg -O /tmp/" + picture)
-        Thread::sleep(3000)
-        sendNotification("al_bertvs@hotmail.com", "Alarma en la sala de la lavadora " + timeRightNow)
-        sendNotification("mmorenomd@gmail.com", "Alarma en la saña de la lavadora " + timeRightNow)
-        sendMail("bertvs@gmail.com","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
-        sendMail("aperalta@laliga.es","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
-        sendMail("mmorenomd@gmail.com","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
+     if (EnCasa.state == OFF || (now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30)) && 
+         now.isBefore(now.withTimeAtStartOfDay.plusHours(7))))
+            {
+            if (timeRightNow === null || now.isAfter(timeRightNow.plusMinutes(10))) {
+            timeRightNow = now 
+            
+            logInfo("CamaraLavadoraImageReceived", "Entró en el if")
+            var picture = "picture.jpg"
+            var MensajeCamara = "Alarma por movieento en la sala de la lavadora Lavadora "+ now.toString ("HH:mm dd-MM-yyyy")
+            
+            executeCommandLine("wget http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.1.67/tmpfs/auto.jpg -O /tmp/" + picture)
+            Thread::sleep(3000)
+            sendNotification("al_bertvs@hotmail.com", "Alarma en la sala de la lavadora " + timeRightNow)
+            sendNotification("mmorenomd@gmail.com", "Alarma en la saña de la lavadora " + timeRightNow)
+            sendMail("bertvs@gmail.com","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
+            sendMail("aperalta@laliga.es","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
+            sendMail("mmorenomd@gmail.com","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
+            }
         }
 end
 
