@@ -8,6 +8,7 @@ sitemap SM_Mi_Casa label="Casa" {
         Setpoint item=TR_TemperaturaFin label="Hora Fin [%.0f]" minValue=11 maxValue=23 step=1
         Text item=Salon_SensorTemperature label="Salón [%.1f °C]" icon="temperature"
         Text item=WeatherAndForecast_Current_OutdoorTemperature label="Temperatura exterior [%.1f °C]" icon="temperature"
+        Switch item=Salon_ThermostatOperatingState label="Estado" mappings=[0="Apagado",1="Encendido"] 
         Text item=TermostatoSalon_BatteryLevel label="Nivel de la batería [%.1f]" icon="battery"
         } 
         Frame label="Temperaturas"{

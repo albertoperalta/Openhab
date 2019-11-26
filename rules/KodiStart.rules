@@ -5,7 +5,7 @@ then
     
     TR_ModoManual.sendCommand(OFF)
     if (TR_TemperaturaInicio.state == NULL) {
-        TR_TemperaturaInicio.postUpdate(16)
+        TR_TemperaturaInicio.postUpdate(15)
     }
     if (TR_TemperaturaFin.state == NULL) {
         TR_TemperaturaFin.postUpdate(22)

@@ -5,17 +5,20 @@ var Number TemperaturaBaja = 18
 var Number TemperaturaLeida = 0
 var Number TemperaturaEstablecida = 0
 var Number TemperaturaExterior = 0
-var int TemperaturaInicioTermostato = 16
+var int TemperaturaInicioTermostato = 15
 var int TemperaturaFinTermostato = 22
 var Number TemperaturaCambio = 0
-
+var Number Automatico = 0
 
 
 rule "Definicion Temperatura Salon"
 when
     Item Salon_SensorTemperature changed or 
+    Item EnCasa changed or 
+    Item CercaCasa changed or 
     Time cron "0 0 0/1 1/1 * ? *" 
 then
+  Automatico = 1
   TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
   logInfo("Definicion Temperatura Salon rule", "Entró en la regla" + TemperaturaLeida)
 
@@ -66,7 +69,7 @@ then
         }
         
 
-        
+  
   }
 end
 
@@ -100,21 +103,31 @@ then
     if (TR_Out.state == OFF) 
     {
         logInfo("Reset Modo Manual automático Medianoche", "Entró en la regla")
+        Automatico = 0
         TR_ModoManual.sendCommand(OFF)
-        TemperaturaInicioTermostato = 16
+        TemperaturaInicioTermostato = 15
         TemperaturaFinTermostato = 22
         TR_TemperaturaInicio.sendCommand(TemperaturaInicioTermostato)
         TR_TemperaturaFin.sendCommand(TemperaturaFinTermostato)
     }
 end
 
-rule "Cambia Temperatura Manual"
+rule "Cambia Temperatura en SetpointHeating"
 when 
-    Item Salon_SetpointHeating received command
+    Item Salon_SetpointHeating changed
 then 
     logInfo("Cambia Temperatura Manual", "Entró en la regla")
     TemperaturaCambio = (Salon_SetpointHeating.state as Number).intValue
     TR_TemperaturaTermostato.postUpdate ( TemperaturaCambio  )
+    if (Automatico == 1) {
+        logInfo("Cambia Temperatura Manual", "Automatico")
+        Automatico = 0
+    }
+    else 
+    {
+        logInfo("Cambia Temperatura Manual", "No automatico")
+        TR_ModoManual.postUpdate(ON)
+    }
 end 
 
 /* rule "Cambia Temperatura Manual Maquina"
@@ -131,14 +144,17 @@ rule "Cambia temperatura por setpoint"
  when 
      Item TR_TemperaturaTermostato received command
  then
+
     logInfo("Cambia temperatura por setpoint", "Entró en la regla")
     logInfo("Cambia temperatura por setpoint", "TR_TemperaturaTermostato.state "+ (TR_TemperaturaTermostato.state as Number).intValue)
+    Automatico = 1
     TemperaturaCambio =    (TR_TemperaturaTermostato.state as Number).intValue 
     logInfo("Cambia temperatura por setpoint", "TemperaturaCambio "+ TemperaturaCambio)    
     Salon_SetpointHeating.sendCommand(TemperaturaCambio)
     TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
     logInfo("Cambia temperatura por setpoint", "Valor de TemperaturaLeida=" + TemperaturaLeida)
     TR_ModoManual.sendCommand(ON)
+    
  end
 
 rule "Cambia Switch OUT OFF ON"
