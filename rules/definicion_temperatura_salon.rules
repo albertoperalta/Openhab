@@ -67,8 +67,6 @@ then
             }
           
         }
-        
-
   
   }
 end
@@ -116,18 +114,19 @@ rule "Cambia Temperatura en SetpointHeating"
 when 
     Item Salon_SetpointHeating changed
 then 
-    logInfo("Cambia Temperatura Manual", "Entró en la regla")
+    logInfo("Cambia Temperatura en SetpointHeating", "Entró en la regla")
     TemperaturaCambio = (Salon_SetpointHeating.state as Number).intValue
     TR_TemperaturaTermostato.postUpdate ( TemperaturaCambio  )
     if (Automatico == 1) {
-        logInfo("Cambia Temperatura Manual", "Automatico")
-        Automatico = 0
+        logInfo("Cambia Temperatura en SetpointHeating", "Automatico")
+        
     }
     else 
     {
-        logInfo("Cambia Temperatura Manual", "No automatico")
+        logInfo("Cambia Temperatura en SetpointHeating", "No automatico")
         TR_ModoManual.postUpdate(ON)
     }
+    Automatico = 0
 end 
 
 /* rule "Cambia Temperatura Manual Maquina"
@@ -140,19 +139,19 @@ then
     TR_ModoManual.sendCommand(ON)
 end  */
 
-rule "Cambia temperatura por setpoint"
+rule "Cambia temperatura por TR_TemperaturaTermostato"
  when 
      Item TR_TemperaturaTermostato received command
  then
 
-    logInfo("Cambia temperatura por setpoint", "Entró en la regla")
-    logInfo("Cambia temperatura por setpoint", "TR_TemperaturaTermostato.state "+ (TR_TemperaturaTermostato.state as Number).intValue)
+    logInfo("Cambia temperatura por TR_TemperaturaTermostato", "Entró en la regla")
+    logInfo("Cambia temperatura por TR_TemperaturaTermostato", "TR_TemperaturaTermostato.state "+ (TR_TemperaturaTermostato.state as Number).intValue)
     Automatico = 1
     TemperaturaCambio =    (TR_TemperaturaTermostato.state as Number).intValue 
-    logInfo("Cambia temperatura por setpoint", "TemperaturaCambio "+ TemperaturaCambio)    
+    logInfo("Cambia temperatura por TR_TemperaturaTermostato", "TemperaturaCambio "+ TemperaturaCambio)    
     Salon_SetpointHeating.sendCommand(TemperaturaCambio)
     TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
-    logInfo("Cambia temperatura por setpoint", "Valor de TemperaturaLeida=" + TemperaturaLeida)
+    logInfo("Cambia temperatura por TR_TemperaturaTermostato", "Valor de TemperaturaLeida=" + TemperaturaLeida)
     TR_ModoManual.sendCommand(ON)
     
  end
