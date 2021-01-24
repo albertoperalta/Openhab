@@ -1,0 +1,18 @@
+rule "TNAS WOL"
+    when
+        Item TNAS_Online changed or
+        Item TNAS_ping_Online changed or
+        Time cron "0 0 0/1 1/1 * ? *"
+    then
+        logInfo("TNAS WOL", "Entró ")
+        actions.get("network", "network:pingdevice:192_168_1_69").sendWakeOnLanPacket()
+        //val actions = getActions("network", "network:pingdevice:192_168_1_69")
+        //if (actions === null) {
+        //    logInfo("TNAS WOL", "Actions not found, check thing ID")
+        //    return
+        //}
+        //else {
+        //    logInfo("TNAS WOL", "Actions sendWakeOnLanPacket")
+        //    actions.sendWakeOnLanPacket()
+        //}
+end

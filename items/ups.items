@@ -1,0 +1,4 @@
+Number:Dimensionless ups_battery_charge "Battery Charge [%d %%]" (Ups)  {channel="networkupstools:ups:ups1:batteryCharge"}
+Number:ElectricCurrent ups_current "Input Current [%d mA]" (Ups) {channel="networkupstools:ups:ups1:upsCurrentNominal"}
+String Ups_Status "UPS status [%s]" (Ups) {channel="networkupstools:ups:ups1:UpsStatus"}
+Switch TR_HayLuz <light> (Ups)

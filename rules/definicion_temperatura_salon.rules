@@ -5,7 +5,7 @@ var Number TemperaturaBaja = 18
 var Number TemperaturaLeida = 0
 var Number TemperaturaEstablecida = 0
 var Number TemperaturaExterior = 0
-var int TemperaturaInicioTermostato = 15
+var int TemperaturaInicioTermostato = 13
 var int TemperaturaFinTermostato = 22
 var Number TemperaturaCambio = 0
 var Number Automatico = 0
@@ -21,8 +21,8 @@ then
   Automatico = 1
   TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
   logInfo("Definicion Temperatura Salon rule", "Entró en la regla" + TemperaturaLeida)
-
-
+  Salon_ThermostatOperatingState.postUpdate((Salon_ThermostatOperatingState.state as Number).intValue)
+  
   if ((TR_ModoManual.state == OFF))
   {
      logInfo("Definicion Temperatura Salon rule", "Entró en el if state OFF Temperatura Inicio" + TemperaturaInicioTermostato + " Temperatura Fin " + TemperaturaFinTermostato)
@@ -96,14 +96,14 @@ end
 rule "Reset Modo Manual automatico Medianoche"
 when
     Time is midnight
-    
 then
     if (TR_Out.state == OFF) 
     {
         logInfo("Reset Modo Manual automático Medianoche", "Entró en la regla")
         Automatico = 0
         TR_ModoManual.sendCommand(OFF)
-        TemperaturaInicioTermostato = 15
+        EnSalaLavadora.sendCommand(OFF)
+        TemperaturaInicioTermostato = 13
         TemperaturaFinTermostato = 22
         TR_TemperaturaInicio.sendCommand(TemperaturaInicioTermostato)
         TR_TemperaturaFin.sendCommand(TemperaturaFinTermostato)

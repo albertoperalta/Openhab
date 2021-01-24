@@ -1,0 +1,20 @@
+var DateTime timeRightNow 
+
+rule "UPS status change"
+    when
+        Item Ups_Status changed
+    then
+        logInfo("UPS status change", "Entró ")
+        if (Ups_Status.state == "OL") {
+            logInfo("UPS status change", "State OL SendComand ON Hay Lus ")
+            TR_HayLuz.postUpdate(ON)
+        }
+        else {
+            logInfo("UPS status change", "State <> OL SendComand OFF Hay Lus ")
+            TR_HayLuz.postUpdate(OFF)
+            timeRightNow = now
+            sendNotification("al_bertvs@hotmail.com", "Se ha ido la luz " + timeRightNow)
+            sendNotification("mmorenomd@gmail.com", "Se ha ido la luz " + timeRightNow)
+        }
+    
+end

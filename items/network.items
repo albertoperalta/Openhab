@@ -7,3 +7,6 @@ Switch BotonEmail "Boton Eamil" {ihc="0x33c311", autoupdate="false"}
 
 //Switch AndroidAlbertoOnline "Movil Alberto" <network> (EnCasa) { channel="netwok:pingdevice:AndroidAlberto:online"} 
 //Number AndroidAlbertoLatency { channel="netwok:pingdevice:AndroidAlberto:latency"}
+
+
+Switch TNAS_Wol "Terra Master NAS" { wol="192.168.1.255#6c:bf:b5:01:8c:9f" }

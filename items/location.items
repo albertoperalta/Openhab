@@ -2,6 +2,8 @@
 // Switch atHomeEX "Home presence" {channel="gpstracker:tracker:fm:regionTrigger" [profile="gpstracker:trigger-geofence", regionName="casa"]}
 Group:Switch:OR(ON,OFF) CercaCasa
 
+Switch EnSalaLavadora "En Sala Lavadora" <washingmachine>
+
 //Switch atHomeFM "En Casa" <gpstracker_tracker_fm_lastLocation> (EnCasa)
 //Switch NearHomeFM "Cerca Casa [%s]"  (CercaCasa) {channel="gpstracker:tracker:fm:regionTrigger" [profile="gpstracker:trigger-geofence", regionName="CercaCasa"]}
 

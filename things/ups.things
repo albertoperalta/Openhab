@@ -1,0 +1,5 @@
+Thing networkupstools:ups:ups1 [ device="apc-1100", host="localhost", username="upsadmin", password = "123456789.a", refresh=60 ] {
+    Channels:
+        Number:ElectricCurrent:upsCurrentNominal "Current Nominal" [networkupstools="input.current.nominal", unit="A"]
+        String:UpsStatus "Ups Status" [networkupstools="ups.status"]
+}

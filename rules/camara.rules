@@ -1,3 +1,4 @@
+import java.util.List
 var DateTime timeRightNow 
 
 
@@ -7,24 +8,36 @@ rule "CamaraLavadoraImageReceived"
 when 
     Item ImageReceivedLavadora changed
 then
-    logInfo("CamaraLavadoraImageReceived", "Entró en la regla " )
+    //logInfo("CamaraLavadoraImageReceived", "Entró en la regla " )
      if (EnCasa.state == OFF || (now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30)) && 
-         now.isBefore(now.withTimeAtStartOfDay.plusHours(7))))
+         now.isBefore(now.withTimeAtStartOfDay.plusHours(7)) && EnSalaLavadora.state == OFF)) 
             {
+            logInfo("CamaraLavadoraImageReceived", "Entró en el if 1" + EnCasa.state.toString)
+            logInfo("CamaraLavadoraImageReceived", "Entró en el if 2" + (now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30)) && 
+         now.isBefore(now.withTimeAtStartOfDay.plusHours(7))))
             if (timeRightNow === null || now.isAfter(timeRightNow.plusMinutes(10))) {
+            //if (true) {
             timeRightNow = now 
             
-            logInfo("CamaraLavadoraImageReceived", "Entró en el if")
-            var picture = "picture.jpg"
+            logInfo("CamaraLavadoraImageReceived", "Entró en el if 3")
+            var picturesalon = "salon.jpg"
+            //var picturelavadora = "lavadora.jpg"
             var MensajeCamara = "Alarma por movieento en la sala de la lavadora Lavadora "+ now.toString ("HH:mm dd-MM-yyyy")
             
-            executeCommandLine("wget http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.1.67/tmpfs/auto.jpg -O /tmp/" + picture)
+            //executeCommandLine("wget http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.1.57/tmpfs/auto.jpg -O /tmp/" + picturelavadora)
+            executeCommandLine("wget http://admin:D1uHhGxd3KNt8w3ILpgl@192.168.1.70/image.jpg -O /tmp/" + picturesalon)
             Thread::sleep(3000)
+            //val List<String> attachmentUrlList = newArrayList("file:///tmp/" +picturelavadora, "file:///tmp/" +picturesalon)
+            val List<String> attachmentUrlList = newArrayList("file:///tmp/" +picturesalon)
+
             sendNotification("al_bertvs@hotmail.com", "Alarma en la sala de la lavadora " + timeRightNow)
-            sendNotification("mmorenomd@gmail.com", "Alarma en la saña de la lavadora " + timeRightNow)
-            sendMail("bertvs@gmail.com","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
-            sendMail("aperalta@laliga.es","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
-            sendMail("mmorenomd@gmail.com","Alarma Lavadora",MensajeCamara,"file:///tmp/" +picture)
+            sendNotification("mmorenomd@gmail.com", "Alarma en la sala de la lavadora " + timeRightNow)
+
+            logInfo("CamaraLavadoraImageReceived", "Antes de enviar el correo " )
+            val mailActions = getActions("mail","mail:smtp:GmailBertvs2")
+            mailActions.sendHtmlMail("bertvs@gmail.com","Alarma Lavadora",MensajeCamara,attachmentUrlList)
+            //mailActions.sendHtmlMail("aperalta@laliga.es","Alarma Lavadora",MensajeCamara,attachmentUrlList)
+            mailActions.sendHtmlMail("mmorenomd@gmail.com","Alarma Lavadora",MensajeCamara,attachmentUrlList)
             }
         }
 end
@@ -35,5 +48,13 @@ when
 then 
     //Cambiar por el bihding
     logInfo("CamaraLavadoraBotonPulsado", "Entró en la regla")
-    sendHttpGetRequest("http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.1.67/web/test_ftp.html")
+    var MensajeCamara = "Test cámara "+ now.toString ("HH:mm dd-MM-yyyy")
+    var picturesalon = "salon.jpg"
+    executeCommandLine("wget http://admin:D1uHhGxd3KNt8w3ILpgl@192.168.1.70/image.jpg -O /tmp/" + picturesalon)
+    Thread::sleep(3000)
+    val List<String> attachmentUrlList = newArrayList("file:///tmp/" +picturesalon)
+    logInfo("CamaraLavadoraImageReceived", "Antes de enviar el correo " )
+    val mailActions = getActions("mail","mail:smtp:GmailBertvs2")
+    mailActions.sendHtmlMail("bertvs@gmail.com","Alarma Lavadora",MensajeCamara,attachmentUrlList)
+
 end

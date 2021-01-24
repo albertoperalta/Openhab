@@ -4,8 +4,9 @@ when
 then
     
     TR_ModoManual.sendCommand(OFF)
+    EnSalaLavadora.sendCommand(OFF)
     if (TR_TemperaturaInicio.state == NULL) {
-        TR_TemperaturaInicio.postUpdate(15)
+        TR_TemperaturaInicio.postUpdate(13)
     }
     if (TR_TemperaturaFin.state == NULL) {
         TR_TemperaturaFin.postUpdate(22)
