@@ -1,5 +1,5 @@
 import java.util.List
-var DateTime timeRightNow 
+var DateTimeType timeRightNow 
 
 
 
@@ -9,12 +9,12 @@ when
     Item ImageReceivedLavadora changed
 then
     //logInfo("CamaraLavadoraImageReceived", "Entró en la regla " )
-     if (EnCasa.state == OFF || (now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30)) && 
-         now.isBefore(now.withTimeAtStartOfDay.plusHours(7)) && EnSalaLavadora.state == OFF)) 
+     if (EnCasa.state == OFF || (now.isAfter(now.withHour(0).withMinute(0).withSecond(0).plusHours(0).plusMinutes(30)) && 
+         now.isBefore(now.withHour(0).withMinute(0).withSecond(0).plusHours(7)) && EnSalaLavadora.state == OFF)) 
             {
             logInfo("CamaraLavadoraImageReceived", "Entró en el if 1" + EnCasa.state.toString)
-            logInfo("CamaraLavadoraImageReceived", "Entró en el if 2" + (now.isAfter(now.withTimeAtStartOfDay.plusHours(0).plusMinutes(30)) && 
-         now.isBefore(now.withTimeAtStartOfDay.plusHours(7))))
+            logInfo("CamaraLavadoraImageReceived", "Entró en el if 2" + (now.isAfter(now.withHour(0).withMinute(0).withSecond(0).plusHours(0).plusMinutes(30)) && 
+         now.isBefore(now.withHour(0).withMinute(0).withSecond(0).plusHours(7))))
             if (timeRightNow === null || now.isAfter(timeRightNow.plusMinutes(10))) {
             //if (true) {
             timeRightNow = now 
@@ -24,8 +24,8 @@ then
             //var picturelavadora = "lavadora.jpg"
             var MensajeCamara = "Alarma por movieento en la sala de la lavadora Lavadora "+ now.toString ("HH:mm dd-MM-yyyy")
             
-            //executeCommandLine("wget http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.1.57/tmpfs/auto.jpg -O /tmp/" + picturelavadora)
-            executeCommandLine("wget http://admin:D1uHhGxd3KNt8w3ILpgl@192.168.1.70/image.jpg -O /tmp/" + picturesalon)
+            //executeCommandLine("wget http://aperalta:CkfEcVf0ophIYFQ4DJJo@192.168.68.57/tmpfs/auto.jpg -O /tmp/" + picturelavadora)
+            executeCommandLine("wget http://admin:D1uHhGxd3KNt8w3ILpgl@192.168.68.70/image.jpg -O /tmp/" + picturesalon)
             Thread::sleep(3000)
             //val List<String> attachmentUrlList = newArrayList("file:///tmp/" +picturelavadora, "file:///tmp/" +picturesalon)
             val List<String> attachmentUrlList = newArrayList("file:///tmp/" +picturesalon)
@@ -50,7 +50,7 @@ then
     logInfo("CamaraLavadoraBotonPulsado", "Entró en la regla")
     var MensajeCamara = "Test cámara "+ now.toString ("HH:mm dd-MM-yyyy")
     var picturesalon = "salon.jpg"
-    executeCommandLine("wget http://admin:D1uHhGxd3KNt8w3ILpgl@192.168.1.70/image.jpg -O /tmp/" + picturesalon)
+    executeCommandLine("wget http://admin:D1uHhGxd3KNt8w3ILpgl@192.168.68.70/image.jpg -O /tmp/" + picturesalon)
     Thread::sleep(3000)
     val List<String> attachmentUrlList = newArrayList("file:///tmp/" +picturesalon)
     logInfo("CamaraLavadoraImageReceived", "Antes de enviar el correo " )

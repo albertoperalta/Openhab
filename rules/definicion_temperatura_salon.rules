@@ -13,7 +13,7 @@ var Number Automatico = 0
 
 rule "Definicion Temperatura Salon"
 when
-    Item Salon_SensorTemperature changed or 
+    Item TermostatoSalon_Sensortemperature changed or 
     Item EnCasa changed or 
     Item CercaCasa changed or 
     Time cron "0 0 0/1 1/1 * ? *" 
@@ -26,8 +26,8 @@ then
   if ((TR_ModoManual.state == OFF))
   {
      logInfo("Definicion Temperatura Salon rule", "Entró en el if state OFF Temperatura Inicio" + TemperaturaInicioTermostato + " Temperatura Fin " + TemperaturaFinTermostato)
-    if ((now.isAfter(now.withTimeAtStartOfDay.plusHours( TemperaturaInicioTermostato  ))) && 
-        now.isBefore(now.withTimeAtStartOfDay.plusHours( TemperaturaFinTermostato  ))) 
+    if ((now.isAfter(now.withHour(0).withMinute(0).withSecond(0).plusHours( TemperaturaInicioTermostato  ))) && 
+        now.isBefore(now.withHour(0).withMinute(0).withSecond(0).plusHours( TemperaturaFinTermostato  ))) 
         {   
             logInfo("Definición Temperatura Salon rule", "TemperaturaLeida TemperaturaAlta " + TemperaturaLeida + " " + TemperaturaAlta)
             TemperaturaEstablecida = TemperaturaBaja
@@ -50,9 +50,12 @@ then
             {
                 logInfo("Definicion Temperatura Salon rule", "Entró en el if TemperaturaAlta")
                 Salon_SetpointHeating.sendCommand(TemperaturaEstablecida)
-                TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
-                TR_TemperaturaTermostato.postUpdate(TemperaturaLeida)
-            
+                logInfo("Definicion Temperatura Salon rule", "Mandado Salon_SetpointHeating.sendCommand")
+                //TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
+                //logInfo("Definicion Temperatura Salon rule", "Leida Salon_SetpointHeating.state")
+                //TR_TemperaturaTermostato.postUpdate(TemperaturaEstablecida)
+                //logInfo("Definicion Temperatura Salon rule", "Mandado TR_TemperaturaTermostato.postUpdate")
+                Automatico = 1
             }
         }
         else 
@@ -62,8 +65,12 @@ then
             {
                 logInfo("Definicion Temperatura Salon rule", "Entró en el if TemperaturaBaja")
                 Salon_SetpointHeating.sendCommand(TemperaturaBaja)
-                TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
-                TR_TemperaturaTermostato.postUpdate(TemperaturaLeida)
+                logInfo("Definicion Temperatura Salon rule", "Mandado Salon_SetpointHeating.sendCommand")
+                //TemperaturaLeida = (Salon_SetpointHeating.state as Number).intValue
+                //logInfo("Definicion Temperatura Salon rule", "Leida Salon_SetpointHeating.state")
+                //TR_TemperaturaTermostato.postUpdate(TemperaturaBaja)
+                //logInfo("Definicion Temperatura Salon rule", "Mandado TR_TemperaturaTermostato.postUpdate")
+                Automatico = 1
             }
           
         }
@@ -97,9 +104,10 @@ rule "Reset Modo Manual automatico Medianoche"
 when
     Time is midnight
 then
+    logInfo("Reset Modo Manual automático Medianoche", "Entró en la regla")
     if (TR_Out.state == OFF) 
     {
-        logInfo("Reset Modo Manual automático Medianoche", "Entró en la regla")
+        logInfo("Reset Modo Manual automático Medianoche", "Entró en la if")
         Automatico = 0
         TR_ModoManual.sendCommand(OFF)
         EnSalaLavadora.sendCommand(OFF)
@@ -116,7 +124,9 @@ when
 then 
     logInfo("Cambia Temperatura en SetpointHeating", "Entró en la regla")
     TemperaturaCambio = (Salon_SetpointHeating.state as Number).intValue
+    logInfo("Cambia Temperatura en SetpointHeating", "Antes de PostUpdate")
     TR_TemperaturaTermostato.postUpdate ( TemperaturaCambio  )
+    logInfo("Cambia Temperatura en SetpointHeating", "Despues de PostUpdate")
     if (Automatico == 1) {
         logInfo("Cambia Temperatura en SetpointHeating", "Automatico")
         
@@ -127,6 +137,7 @@ then
         TR_ModoManual.postUpdate(ON)
     }
     Automatico = 0
+    
 end 
 
 /* rule "Cambia Temperatura Manual Maquina"
@@ -160,6 +171,7 @@ rule "Cambia Switch OUT OFF ON"
 when
     Item TR_Out changed to ON
 then
+    logInfo("Cambia Switch OUT OFF ON", "Entró en la regla")
     TR_ModoManual.sendCommand(ON)
 end
 
@@ -188,3 +200,5 @@ when
 then 
     logInfo("Hay alguien en casa", "Entró en la regla")
 end
+
+
